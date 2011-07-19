@@ -201,9 +201,17 @@ object execution {
   }
 }
 
+import com.sun.mail.util.MailSSLSocketFactory;
 import javax.mail._;
 import javax.mail.internet._;
 import java.util.Properties;
+import java.security.cert.X509Certificate;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 object email {
   def sendEmail(toAddr: Array[String], fromAddr: String, subject: String, headers: Scriptable, content: String): String = {
@@ -217,7 +225,10 @@ object email {
         val debug = false;
 
         val props = new Properties;
-	props.put("mail.smtp.starttls.enable", config.smtpStartTls);
+        val sf = new MailSSLSocketFactory();
+	sf.setTrustAllHosts(true);
+        props.put("mail.smtp.ssl.socketFactory", sf);
+        props.put("mail.smtp.starttls.enable", config.smtpStartTls);
         props.put("mail.smtp.host", config.smtpServerHost);
         props.put("mail.smtp.port", config.smtpServerPort.toString());
         if (config.smtpUser != "")
