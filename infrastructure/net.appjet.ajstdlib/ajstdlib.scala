@@ -226,7 +226,7 @@ object email {
 
         val props = new Properties;
         val sf = new MailSSLSocketFactory();
-	sf.setTrustAllHosts(true);
+	sf.setTrustAllHosts(config.smtpTrustAllHosts);
         props.put("mail.smtp.ssl.socketFactory", sf);
         props.put("mail.smtp.starttls.enable", config.smtpStartTls);
         props.put("mail.smtp.host", config.smtpServerHost);
