@@ -211,6 +211,9 @@ object config {
   @ConfigParam("true or false to use starttls (TLS authentication) when connecting to mail server. Default: false.")
               { val argName = "smtpStartTls" }
   def smtpStartTls = stringOrElse("smtpStartTls", "false");
+  @ConfigParam("true or false to trust all hosts when connecting to mail server. Default: false.")
+              { val argName = "smtpTrustAllHosts" }
+  def smtpTrustAllHosts = boolOrElse("smtpTrustAllHosts", false);
 
   // comet
   @ConfigParam("prefix for all comet requests. Required to use Comet system.")

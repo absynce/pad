@@ -201,6 +201,7 @@ object execution {
   }
 }
 
+import com.sun.mail.util.MailSSLSocketFactory;
 import javax.mail._;
 import javax.mail.internet._;
 import java.util.Properties;
@@ -217,7 +218,10 @@ object email {
         val debug = false;
 
         val props = new Properties;
-	props.put("mail.smtp.starttls.enable", config.smtpStartTls);
+        val sf = new MailSSLSocketFactory();
+        sf.setTrustAllHosts(config.smtpTrustAllHosts);
+        props.put("mail.smtp.ssl.socketFactory", sf);
+        props.put("mail.smtp.starttls.enable", config.smtpStartTls);
         props.put("mail.smtp.host", config.smtpServerHost);
         props.put("mail.smtp.port", config.smtpServerPort.toString());
         if (config.smtpUser != "")
